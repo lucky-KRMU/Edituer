@@ -26,9 +26,15 @@ class App(tk.Tk):   # Creating the class App that inherits tkinter
         theme_Btn = tk.Button(self,
                             text="Change Theme",bg="orange", 
                             fg="#222c3d", 
-                            font=("consolas", 10, "bold"), 
+                            font=("helvetica", 10, "bold"),
+                            relief="flat", 
+                            bd=5,
+                            cursor="star",
+                            padx=5,
+                            pady=5,
                             command=self.change_mode)
         theme_Btn.pack()
+        theme_Btn.place(x=10,y=10)
 
     def change_mode(self):
         if self.COLOR_THEME_COUNTER:
