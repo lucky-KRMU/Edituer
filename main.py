@@ -3,6 +3,7 @@ This is a python program to make a simple image editing software.
 '''
 # Importing the necessary modules
 import tkinter as tk
+from PIL import Image, ImageTk
 
 class App(tk.Tk):   # Creating the class App that inherits tkinter
     COLOR_THEME_COUNTER = True
@@ -16,13 +17,13 @@ class App(tk.Tk):   # Creating the class App that inherits tkinter
         self.geometry("1000x600")
         self.resizable(False,False)
         self.attributes("-fullscreen", False)
-        # self.configure(bg="#0a52d8")
         self.configure(bg="#001e57")
 
         #widget methods
-        self.create_widgets()
+        self.create_widget_theme_change()
+        self.display_image()
 
-    def create_widgets(self):
+    def create_widget_theme_change(self):
         theme_Btn = tk.Button(self,
                             text="Change Theme",bg="orange", 
                             fg="#222c3d", 
@@ -30,11 +31,19 @@ class App(tk.Tk):   # Creating the class App that inherits tkinter
                             relief="flat", 
                             bd=5,
                             cursor="star",
-                            padx=5,
+                            padx=5, 
                             pady=5,
                             command=self.change_mode)
         theme_Btn.pack()
         theme_Btn.place(x=10,y=10)
+
+    def display_image(self):
+       image = Image.open("photo.jpg").resize((300,300))
+       tk_image = ImageTk.PhotoImage(image=image)
+       
+       img_label = tk.Label(self, image=tk_image)
+       img_label.image = tk_image
+       img_label.pack()
 
     def change_mode(self):
         if self.COLOR_THEME_COUNTER:
