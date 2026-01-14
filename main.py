@@ -34,8 +34,8 @@ class App(tk.Tk):   # Creating the class App that inherits tkinter
 
         # This is for the file menu
         file_menu = tk.Menu(menubar, tearoff=0)
-        file_menu.add_command(label="Open File", command=self.open_file)
-        file_menu.add_command(label="Export File", command=self.save_file)
+        file_menu.add_command(label="Open Image", command=self.open_file)
+        file_menu.add_command(label="Export Image", command=self.save_file)
         file_menu.add_separator()
         file_menu.add_command(label="Exit", command=self.exit_program)
         menubar.add_cascade(label="File", menu=file_menu)
@@ -49,11 +49,19 @@ class App(tk.Tk):   # Creating the class App that inherits tkinter
 
         self.config(menu=menubar)
 
+
+
+        # Making filter buttons grid
+
+
+
+
         #widget methods
         self.create_widget_theme_change()
         self.display_image()
         self.create_size_change_btn()
         self.make_all_filter_images()
+        self.btns_grid()
 
     def create_widget_theme_change(self):
         theme_Btn = tk.Button(self,
@@ -98,7 +106,113 @@ class App(tk.Tk):   # Creating the class App that inherits tkinter
        img_label.pack()
        img_label.place(x=corX,y=corY)
     
-    
+    def btns_grid(self):
+       canny_Btn = tk.Button(self,
+                            text="Sketch",bg="#1F51FF", 
+                            fg="white", 
+                            font=("helvetica", 10, "bold"),
+                            relief="flat", 
+                            bd=5,
+                            cursor="star",
+                            padx=5, 
+                            pady=5,
+                            command=self.to_canny
+       ) 
+       dialated_Btn = tk.Button(self,
+                            text="Dialate",bg="#1F51FF", 
+                            fg="white", 
+                            font=("helvetica", 10, "bold"),
+                            relief="flat", 
+                            bd=5,
+                            cursor="star",
+                            padx=5, 
+                            pady=5,
+                            command=self.to_dialated
+       ) 
+       gaussianBlur_Btn = tk.Button(self,
+                            text="Blur",bg="#1F51FF", 
+                            fg="white", 
+                            font=("helvetica", 10, "bold"),
+                            relief="flat", 
+                            bd=5,
+                            cursor="star",
+                            padx=5, 
+                            pady=5,
+                            command=self.to_blur
+       ) 
+       hsv_Btn = tk.Button(self,
+                            text="Funky",bg="#1F51FF", 
+                            fg="white", 
+                            font=("helvetica", 10, "bold"),
+                            relief="flat", 
+                            bd=5,
+                            cursor="star",
+                            padx=5, 
+                            pady=5,
+                            command=self.to_hsv
+       ) 
+       lab_Btn = tk.Button(self,
+                            text="Ghost",bg="#1F51FF", 
+                            fg="white", 
+                            font=("helvetica", 10, "bold"),
+                            relief="flat", 
+                            bd=5,
+                            cursor="star",
+                            padx=5, 
+                            pady=5,
+                            command=self.to_lab
+       ) 
+       monochrome_Btn = tk.Button(self,
+                            text="Monochrome",bg="#1F51FF", 
+                            fg="white", 
+                            font=("helvetica", 10, "bold"),
+                            relief="flat", 
+                            bd=5,
+                            cursor="star",
+                            padx=5, 
+                            pady=5,
+                            command=self.to_monochrome
+       ) 
+       normal_Btn = tk.Button(self,
+                            text="Normal",bg="#1F51FF", 
+                            fg="white", 
+                            font=("helvetica", 10, "bold"),
+                            relief="flat", 
+                            bd=5,
+                            cursor="star",
+                            padx=5, 
+                            pady=5,
+                            command=self.to_normal
+       ) 
+       export_Btn = tk.Button(self,
+                            text="Export",bg="#1F51FF", 
+                            fg="white", 
+                            font=("helvetica", 10, "bold"),
+                            relief="flat", 
+                            bd=5,
+                            cursor="star",
+                            padx=5, 
+                            pady=5,
+                            command=self.export_img           
+       )
+
+       canny_Btn.pack()
+       dialated_Btn.pack()
+       gaussianBlur_Btn.pack()
+       hsv_Btn.pack()
+       lab_Btn.pack()
+       monochrome_Btn.pack()
+       normal_Btn.pack()
+       export_Btn.pack()
+
+       canny_Btn.place(x=100, y=500)
+       dialated_Btn.place(x=200, y=500)
+       gaussianBlur_Btn.place(x=500, y=500)
+       hsv_Btn.place(x=600, y=500)
+       lab_Btn.place(x=100, y=550)
+       monochrome_Btn.place(x=200, y=550)
+       normal_Btn.place(x=500, y=550)
+       export_Btn.place(x=600, y=550) 
 
 
 
@@ -107,7 +221,7 @@ class App(tk.Tk):   # Creating the class App that inherits tkinter
 
        #Converting them into various filter photos and then saving them in the ./Photo_DB 
        
-       gaussianBlur_img = cv.GaussianBlur(cv_img, (5,5), 0)
+       gaussianBlur_img = cv.GaussianBlur(cv_img, (7,7), 0)
        cv.imwrite("./Photo_DB/gaussianBlur.jpg", gaussianBlur_img)
 
        canny_img = cv.Canny(cv_img, 100,100)
@@ -121,7 +235,6 @@ class App(tk.Tk):   # Creating the class App that inherits tkinter
 
        lab_img = cv.cvtColor(cv_img, cv.COLOR_BGR2LAB) 
        cv.imwrite("./Photo_DB/lab.jpg", lab_img)
-
        
        dialated_img = cv.dilate(cv_img, (7,7), iterations=1)
        cv.imwrite("./Photo_DB/dialated.jpg", dialated_img)
@@ -165,6 +278,30 @@ class App(tk.Tk):   # Creating the class App that inherits tkinter
            title="About Us",
            message="This is a simple image editing software."
         )
+
+    def to_canny(self):
+        pass
+
+    def to_dialated(self):
+        pass
+
+    def to_blur(self):
+        pass
+
+    def to_hsv(self):
+        pass
+
+    def to_lab(self):
+        pass
+
+    def to_monochrome(self):
+        pass
+
+    def to_normal(self):
+        pass
+
+    def export_img(self):
+        pass
 
 
 if __name__ == "__main__":
