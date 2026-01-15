@@ -51,8 +51,29 @@ class App(tk.Tk):   # Creating the class App that inherits tkinter
         self.config(menu=menubar)
 
 
-        # Adding the Height and width entry widget for image size resize.
-        
+        # Adding the Height and Width entry widget for image size resize.
+        self.HEIGHT_ENTRY_TYPE = tk.IntVar()
+        self.WIDTH_ENTRY_TYPE = tk.IntVar()
+
+        self.height_entry = tk.Entry(self, 
+                                     textvariable=self.HEIGHT_ENTRY_TYPE,
+                                     fg="white",
+                                     bg="#00229E",
+                                     font=("helvetica", 15, "bold"),
+                                     width="4")
+        self.width_entry = tk.Entry(self, 
+                                     textvariable=self.WIDTH_ENTRY_TYPE,
+                                     fg="white",
+                                     bg="#00229E",
+                                     font=("helvetica", 15, "bold"),
+                                     width="4")
+
+        self.height_entry.pack()
+        self.width_entry.pack()
+
+        self.height_entry.place(x=650,y=200)
+        self.width_entry.place(x=750,y=200)
+
         
 
 
@@ -269,9 +290,36 @@ class App(tk.Tk):   # Creating the class App that inherits tkinter
                                   text="Filter options: ",
                                   fg="white",
                                   bg="#00229E",
-                                  font=("helvetica", 15, "bold"))
+                                  font=("helvetica", 25, "bold"))
         filter_options.pack()
         filter_options.place(x=100, y=380)
+
+        X_sign = tk.Label(self,
+                          text="x",
+                          font=("helvetica", 15, "bold"),
+                          fg="white",
+                          bg="#00229E")
+        X_sign.pack()
+        X_sign.place(x=720,y=200)
+
+        height_label = tk.Label(self,
+                                  text="Height(px):",
+                                  fg="white",
+                                  bg="#00229E",
+                                  font=("helvetica", 10, "bold"))
+
+        width_label = tk.Label(self,
+                                  text="Width(px):",
+                                  fg="white",
+                                  bg="#00229E",
+                                  font=("helvetica", 10, "bold"))
+        
+        height_label.pack()
+        width_label.pack()
+
+        height_label.place(x=640,y=170)
+        width_label.place(x=740,y=170)
+
 
     def change_mode(self):
         if self.COLOR_THEME_COUNTER:
@@ -281,9 +329,18 @@ class App(tk.Tk):   # Creating the class App that inherits tkinter
         self.COLOR_THEME_COUNTER = not self.COLOR_THEME_COUNTER
 
     def change_img_size(self):
-        self.WIDTH_IMG = 90
-        self.HEIGHT_IMG = 160
-        print("size changed.")
+        self.WIDTH_IMG = int(self.height_entry.get())
+        self.HEIGHT_IMG = int(self.width_entry.get())
+        try:
+            head_img = cv.imread(self.HEAD)
+            resized_img = cv.resize(head_img, (self.WIDTH_IMG, self.HEIGHT_IMG))
+
+            cv.imwrite("./HEAD/image.jpg", resized_img)
+        except:
+            messagebox.showwarning(
+                title="Something went wrong",
+                message="Something went wrong"
+            )
 
     def open_file(self):
        try:
@@ -315,33 +372,47 @@ class App(tk.Tk):   # Creating the class App that inherits tkinter
     def to_canny(self):
         self.display_image(img_to_dis="./Photo_DB/canny.jpg")
         self.HEAD = "./Photo_DB/canny.jpg"
+        img_head = cv.imread(self.HEAD)
+        cv.imwrite("./HEAD/image.jpg", img_head)
 
     def to_dialated(self):
         self.display_image(img_to_dis="./Photo_DB/dialated.jpg")
         self.HEAD = "./Photo_DB/dialated.jpg"
+        img_head = cv.imread(self.HEAD)
+        cv.imwrite("./HEAD/image.jpg", img_head)
 
     def to_blur(self):
         self.display_image(img_to_dis="./Photo_DB/gaussianBlur.jpg")
         self.HEAD = "./Photo_DB/gaussianBlur.jpg"
+        img_head = cv.imread(self.HEAD)
+        cv.imwrite("./HEAD/image.jpg", img_head)
 
     def to_hsv(self):
         self.display_image(img_to_dis="./Photo_DB/hsv.jpg")
         self.HEAD = "./Photo_DB/hsv.jpg"
+        img_head = cv.imread(self.HEAD)
+        cv.imwrite("./HEAD/image.jpg", img_head)
 
     def to_lab(self):
         self.display_image(img_to_dis="./Photo_DB/lab.jpg")
         self.HEAD = "./Photo_DB/lab.jpg"
+        img_head = cv.imread(self.HEAD)
+        cv.imwrite("./HEAD/image.jpg", img_head)
 
     def to_monochrome(self):
         self.display_image(img_to_dis="./Photo_DB/monochrome.jpg")
         self.HEAD = "./Photo_DB/monochrome.jpg"
+        img_head = cv.imread(self.HEAD)
+        cv.imwrite("./HEAD/image.jpg", img_head)
 
     def to_normal(self):
         self.display_image(img_to_dis="./Photo_DB/normal.jpg")
         self.HEAD = "./Photo_DB/normal.jpg"
+        img_head = cv.imread(self.HEAD)
+        cv.imwrite("./HEAD/image.jpg", img_head)
 
     def export_img(self):
-        
+        self.change_img_size()
         file_to_be_saved_path = asksaveasfilename(
             title="Save Image as",
             defaultextension=".jpg",
@@ -351,7 +422,7 @@ class App(tk.Tk):   # Creating the class App that inherits tkinter
             ]
         )
         try:
-            file_to_be_saved = cv.imread(self.HEAD)
+            file_to_be_saved = cv.imread("./HEAD/image.jpg")
 
             cv.imwrite(file_to_be_saved_path, file_to_be_saved)
         except Exception as e:
