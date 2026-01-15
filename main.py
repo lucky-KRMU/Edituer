@@ -36,7 +36,7 @@ class App(tk.Tk):   # Creating the class App that inherits tkinter
         # This is for the file menu
         file_menu = tk.Menu(menubar, tearoff=0)
         file_menu.add_command(label="Open Image", command=self.open_file)
-        file_menu.add_command(label="Export Image", command=self.save_file)
+        file_menu.add_command(label="Export Image", command=self.export_img)
         file_menu.add_separator()
         file_menu.add_command(label="Exit", command=self.exit_program)
         menubar.add_cascade(label="File", menu=file_menu)
@@ -51,8 +51,9 @@ class App(tk.Tk):   # Creating the class App that inherits tkinter
         self.config(menu=menubar)
 
 
-
-        # Making filter buttons grid
+        # Adding the Height and width entry widget for image size resize.
+        
+        
 
 
 
@@ -63,7 +64,7 @@ class App(tk.Tk):   # Creating the class App that inherits tkinter
         self.display_image()
         self.create_size_change_btn()
         self.make_all_filter_images()
-        self.btns_grid()
+        self.btns_grid()        # Making filter buttons grid
 
     def create_widget_theme_change(self):
         theme_Btn = tk.Button(self,
@@ -260,9 +261,9 @@ class App(tk.Tk):   # Creating the class App that inherits tkinter
                                text="Preview (Image not to size)",
                                font=("helvetica", 15, "bold"),
                                fg="white",
-                               bg="#1F51FF")
+                               bg="#00229E")
         img_preview.pack()
-        img_preview.place(x=180, y=10)
+        img_preview.place(x=165, y=10)
 
         filter_options = tk.Label(self,
                                   text="Filter options: ",
@@ -270,6 +271,7 @@ class App(tk.Tk):   # Creating the class App that inherits tkinter
                                   bg="#00229E",
                                   font=("helvetica", 15, "bold"))
         filter_options.pack()
+        filter_options.place(x=100, y=380)
 
     def change_mode(self):
         if self.COLOR_THEME_COUNTER:
@@ -284,18 +286,21 @@ class App(tk.Tk):   # Creating the class App that inherits tkinter
         print("size changed.")
 
     def open_file(self):
-       self.HEAD = askopenfilename(
-           title="Choose your image to be edited",
-           filetypes=[
-               ("Image file (JPG/JPEG)","*.jpg"),
-               ("Image File Types (PNG)", "*.png")
-           ]
-       )
-       self.display_image(img_to_dis=self.HEAD)
-       self.make_all_filter_images(cv_img_cvt=self.HEAD)
-
-    def save_file(self):
-       print("File Opened.")
+       try:
+        self.HEAD = askopenfilename(
+            title="Choose your image to be edited",
+            filetypes=[
+                ("Image file (JPG/JPEG)","*.jpg"),
+                ("Image File Types (PNG)", "*.png")
+            ]
+        )
+        self.display_image(img_to_dis=self.HEAD)
+        self.make_all_filter_images(cv_img_cvt=self.HEAD)
+       except Exception as e:
+        messagebox.showwarning(
+            title="Some went wrong",
+            message="Something went wrong, Kindly try again."
+        )
     
     def exit_program(self):
        self.destroy()
@@ -309,27 +314,53 @@ class App(tk.Tk):   # Creating the class App that inherits tkinter
 
     def to_canny(self):
         self.display_image(img_to_dis="./Photo_DB/canny.jpg")
+        self.HEAD = "./Photo_DB/canny.jpg"
 
     def to_dialated(self):
         self.display_image(img_to_dis="./Photo_DB/dialated.jpg")
+        self.HEAD = "./Photo_DB/dialated.jpg"
 
     def to_blur(self):
         self.display_image(img_to_dis="./Photo_DB/gaussianBlur.jpg")
+        self.HEAD = "./Photo_DB/gaussianBlur.jpg"
 
     def to_hsv(self):
         self.display_image(img_to_dis="./Photo_DB/hsv.jpg")
+        self.HEAD = "./Photo_DB/hsv.jpg"
 
     def to_lab(self):
         self.display_image(img_to_dis="./Photo_DB/lab.jpg")
+        self.HEAD = "./Photo_DB/lab.jpg"
 
     def to_monochrome(self):
         self.display_image(img_to_dis="./Photo_DB/monochrome.jpg")
+        self.HEAD = "./Photo_DB/monochrome.jpg"
 
     def to_normal(self):
         self.display_image(img_to_dis="./Photo_DB/normal.jpg")
+        self.HEAD = "./Photo_DB/normal.jpg"
 
     def export_img(self):
-        pass
+        
+        file_to_be_saved_path = asksaveasfilename(
+            title="Save Image as",
+            defaultextension=".jpg",
+            filetypes=[
+                ("High Quality Output (JPG/JPEG)", "*.jpg"),
+                ("Other Images", "*.png")
+            ]
+        )
+        try:
+            file_to_be_saved = cv.imread(self.HEAD)
+
+            cv.imwrite(file_to_be_saved_path, file_to_be_saved)
+        except Exception as e:
+            messagebox.showwarning(
+                title="Something went wrong",
+                message="Sorry Something went wrong. Please try again."
+            )
+
+
 
 
 if __name__ == "__main__":
