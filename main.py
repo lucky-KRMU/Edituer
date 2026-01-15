@@ -28,6 +28,7 @@ class App(tk.Tk):   # Creating the class App that inherits tkinter
         self.resizable(False,False)
         self.attributes("-fullscreen", False)
         self.configure(bg="#383838")
+        self.iconbitmap("icon.ico")
 
         # Creating The Menu bar
         menubar = tk.Menu()
@@ -58,6 +59,7 @@ class App(tk.Tk):   # Creating the class App that inherits tkinter
 
         #widget methods
         self.create_widget_theme_change()
+        self.add_label_text()
         self.display_image()
         self.create_size_change_btn()
         self.make_all_filter_images()
@@ -87,7 +89,10 @@ class App(tk.Tk):   # Creating the class App that inherits tkinter
                             bd=5,
                             cursor="star",
                             padx=5, 
-                            pady=5,command=self.change_img_size)
+                            pady=5,
+                            height=1,
+                            width=10,
+                            command=self.change_img_size)
         size_change_btn.pack()
         size_change_btn.place(x=700,y=280)
 
@@ -116,6 +121,7 @@ class App(tk.Tk):   # Creating the class App that inherits tkinter
                             cursor="star",
                             padx=5, 
                             pady=5,
+                            width=10,
                             command=self.to_canny
        ) 
        dialated_Btn = tk.Button(self,
@@ -127,6 +133,7 @@ class App(tk.Tk):   # Creating the class App that inherits tkinter
                             cursor="star",
                             padx=5, 
                             pady=5,
+                            width=10,
                             command=self.to_dialated
        ) 
        gaussianBlur_Btn = tk.Button(self,
@@ -138,6 +145,7 @@ class App(tk.Tk):   # Creating the class App that inherits tkinter
                             cursor="star",
                             padx=5, 
                             pady=5,
+                            width=10,
                             command=self.to_blur
        ) 
        hsv_Btn = tk.Button(self,
@@ -149,6 +157,7 @@ class App(tk.Tk):   # Creating the class App that inherits tkinter
                             cursor="star",
                             padx=5, 
                             pady=5,
+                            width=10,
                             command=self.to_hsv
        ) 
        lab_Btn = tk.Button(self,
@@ -160,6 +169,7 @@ class App(tk.Tk):   # Creating the class App that inherits tkinter
                             cursor="star",
                             padx=5, 
                             pady=5,
+                            width=10,
                             command=self.to_lab
        ) 
        monochrome_Btn = tk.Button(self,
@@ -171,6 +181,7 @@ class App(tk.Tk):   # Creating the class App that inherits tkinter
                             cursor="star",
                             padx=5, 
                             pady=5,
+                            width=10,
                             command=self.to_monochrome
        ) 
        normal_Btn = tk.Button(self,
@@ -182,6 +193,7 @@ class App(tk.Tk):   # Creating the class App that inherits tkinter
                             cursor="star",
                             padx=5, 
                             pady=5,
+                            width=10,
                             command=self.to_normal
        ) 
        export_Btn = tk.Button(self,
@@ -193,6 +205,7 @@ class App(tk.Tk):   # Creating the class App that inherits tkinter
                             cursor="star",
                             padx=5, 
                             pady=5,
+                            width=10,
                             command=self.export_img           
        )
 
@@ -205,14 +218,14 @@ class App(tk.Tk):   # Creating the class App that inherits tkinter
        normal_Btn.pack()
        export_Btn.pack()
 
-       canny_Btn.place(x=100, y=500)
-       dialated_Btn.place(x=200, y=500)
-       gaussianBlur_Btn.place(x=500, y=500)
-       hsv_Btn.place(x=600, y=500)
-       lab_Btn.place(x=100, y=550)
-       monochrome_Btn.place(x=200, y=550)
-       normal_Btn.place(x=500, y=550)
-       export_Btn.place(x=600, y=550) 
+       canny_Btn.place(x=100, y=450)
+       dialated_Btn.place(x=300, y=450)
+       gaussianBlur_Btn.place(x=500, y=450)
+       hsv_Btn.place(x=700, y=450)
+       lab_Btn.place(x=100, y=520)
+       monochrome_Btn.place(x=300, y=520)
+       normal_Btn.place(x=500, y=520)
+       export_Btn.place(x=700, y=520) 
 
 
 
@@ -242,7 +255,21 @@ class App(tk.Tk):   # Creating the class App that inherits tkinter
        normal = cv_img
        cv.imwrite("./Photo_DB/normal.jpg", normal)
 
+    def add_label_text(self):
+        img_preview = tk.Label(self,
+                               text="Preview (Image not to size)",
+                               font=("helvetica", 15, "bold"),
+                               fg="white",
+                               bg="#1F51FF")
+        img_preview.pack()
+        img_preview.place(x=180, y=10)
 
+        filter_options = tk.Label(self,
+                                  text="Filter options: ",
+                                  fg="white",
+                                  bg="#00229E",
+                                  font=("helvetica", 15, "bold"))
+        filter_options.pack()
 
     def change_mode(self):
         if self.COLOR_THEME_COUNTER:
@@ -276,29 +303,30 @@ class App(tk.Tk):   # Creating the class App that inherits tkinter
     def tell_about_us(self):
         messagebox.showinfo(
            title="About Us",
-           message="This is a simple image editing software."
+           message="This is a simple image editing software.",
+           icon="info"
         )
 
     def to_canny(self):
-        pass
+        self.display_image(img_to_dis="./Photo_DB/canny.jpg")
 
     def to_dialated(self):
-        pass
+        self.display_image(img_to_dis="./Photo_DB/dialated.jpg")
 
     def to_blur(self):
-        pass
+        self.display_image(img_to_dis="./Photo_DB/gaussianBlur.jpg")
 
     def to_hsv(self):
-        pass
+        self.display_image(img_to_dis="./Photo_DB/hsv.jpg")
 
     def to_lab(self):
-        pass
+        self.display_image(img_to_dis="./Photo_DB/lab.jpg")
 
     def to_monochrome(self):
-        pass
+        self.display_image(img_to_dis="./Photo_DB/monochrome.jpg")
 
     def to_normal(self):
-        pass
+        self.display_image(img_to_dis="./Photo_DB/normal.jpg")
 
     def export_img(self):
         pass
