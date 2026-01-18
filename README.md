@@ -1,4 +1,4 @@
-# 🖼️ Image Editing Software (Python + Tkinter + OpenCV)
+# 🖼️ Edituer - Image Editing Software (Python + Tkinter + OpenCV)
 
 A beginner-friendly desktop image editing application built using **Python**, **Tkinter**, and **OpenCV**.  
 This project focuses on understanding **GUI development**, **image processing concepts**, and **software structure**, rather than just producing results.
@@ -35,6 +35,3 @@ This project is **learning-oriented**, not exam-oriented.
 - **Math Utilities:** NumPy  
 
 ---
-
-## 📂 Project Structure
-
